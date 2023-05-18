@@ -323,6 +323,39 @@ func TestXorDiffSize(t *testing.T) {
 	t.Error("did not panic")
 }
 
+func TestAndNot(t *testing.T) {
+	tests := []struct {
+		s1, s2 string
+		want   string
+	}{
+		{"0000", "1111", "0000"},
+		{"1111", "0000", "1111"},
+		{"0101", "0100", "0001"},
+		{"00000000", "11111111", "00000000"},
+		{"11111111", "00000000", "11111111"},
+		{"01010101", "01000110", "00010001"},
+		{"0000000000", "1111111111", "0000000000"},
+		{"1111111111", "0000000000", "1111111111"},
+		{"0101010101", "0100000110", "0001010001"},
+		{"0000000000000000", "1111111111111111", "0000000000000000"},
+		{"1111111111111111", "0000000000000000", "1111111111111111"},
+		{"0101010101010101", "0100000000000110", "0001010101010001"},
+	}
+	for i, test := range tests {
+		ba := MustParse(test.s1)
+		ba.AndNot(MustParse(test.s2))
+		if got := ba.String(); got != test.want {
+			t.Errorf("%d: got %q, want %q", i, got, test.want)
+		}
+	}
+}
+
+func TestAndNotDiffSize(t *testing.T) {
+	defer func() { recover() }()
+	New(4).AndNot(New(5))
+	t.Error("did not panic")
+}
+
 func TestNot(t *testing.T) {
 	tests := []struct {
 		s    string

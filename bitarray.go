@@ -123,7 +123,7 @@ func (ba *BitArray) get(idx int) bool {
 	return ba.data[n]&(1<<i) != 0
 }
 
-// And sets ba = ba & other.
+// And sets ba = ba & other (bitwise AND).
 func (ba *BitArray) And(other *BitArray) {
 	ba.checkSize(other)
 	for i := 0; i < len(ba.data)-1; i++ {
@@ -141,7 +141,7 @@ func (ba *BitArray) And(other *BitArray) {
 	}
 }
 
-// Or sets ba = ba | other.
+// Or sets ba = ba | other (bitwise OR).
 func (ba *BitArray) Or(other *BitArray) {
 	ba.checkSize(other)
 	for i := 0; i < len(ba.data)-1; i++ {
@@ -159,7 +159,7 @@ func (ba *BitArray) Or(other *BitArray) {
 	}
 }
 
-// Xor sets ba = ba ^ other.
+// Xor sets ba = ba ^ other (bitwise XOR).
 func (ba *BitArray) Xor(other *BitArray) {
 	ba.checkSize(other)
 	for i := 0; i < len(ba.data)-1; i++ {
@@ -176,6 +176,24 @@ func (ba *BitArray) Xor(other *BitArray) {
 			if b && !b1 {
 				ba.set(i)
 			} else if !b && b1 {
+				ba.unset(i)
+			}
+		}
+	}
+}
+
+// AndNot sets ba = ba &^ other (bit clear).
+func (ba *BitArray) AndNot(other *BitArray) {
+	ba.checkSize(other)
+	for i := 0; i < len(ba.data)-1; i++ {
+		ba.data[i] &^= other.data[i]
+	}
+	if ba.size%bitsN == 0 {
+		i := len(ba.data) - 1
+		ba.data[i] &^= other.data[i]
+	} else {
+		for i := (ba.size / bitsN) * bitsN; i < ba.size; i++ {
+			if ba.get(i) && other.get(i) {
 				ba.unset(i)
 			}
 		}
