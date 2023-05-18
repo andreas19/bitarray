@@ -368,7 +368,7 @@ func (ba *BitArray) checkSize(other *BitArray) {
 	}
 }
 
-// MarshalBinary implements the [encoding/BinaryMarshaler] interface.
+// MarshalBinary implements the [encoding.BinaryMarshaler] interface.
 func (ba *BitArray) MarshalBinary() ([]byte, error) {
 	b := new(bytes.Buffer)
 	enc := gob.NewEncoder(b)
@@ -383,7 +383,7 @@ func (ba *BitArray) MarshalBinary() ([]byte, error) {
 	return b.Bytes(), nil
 }
 
-// UnmarshalBinary implements the [encoding/BinaryUnmarshaler] interface.
+// UnmarshalBinary implements the [encoding.BinaryUnmarshaler] interface.
 func (ba *BitArray) UnmarshalBinary(data []byte) error {
 	b := bytes.NewReader(data)
 	dec := gob.NewDecoder(b)
