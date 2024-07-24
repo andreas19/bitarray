@@ -188,10 +188,10 @@ func TestUnsetIdxSize(t *testing.T) {
 func TestToggle(t *testing.T) {
 	want := "1000000010"
 	ba := New(10, 9, 0)
-	ba.Toggle(0)
-	ba.Toggle(1)
-	if got := ba.String(); got != want {
-		t.Errorf("got %q, want %q", got, want)
+	a := ba.Toggle(0) // false
+	b := ba.Toggle(1) // true
+	if got := ba.String(); got != want || a || !b {
+		t.Errorf("got %q, want %q (%v, %v)", got, want, a, b)
 	}
 }
 
