@@ -112,6 +112,18 @@ func (ba *BitArray) unset(idx int) {
 	ba.data[n] &^= 1 << i
 }
 
+// Toggle toggles the state of the bit at index idx and reports whether it is set after being toggled.
+func (ba *BitArray) Toggle(idx int) bool {
+	ba.checkIdx(idx)
+	b := ba.get(idx)
+	if b {
+		ba.unset(idx)
+	} else {
+		ba.set(idx)
+	}
+	return !b
+}
+
 // Get reports whether the bit at index idx is set.
 func (ba *BitArray) Get(idx int) bool {
 	ba.checkIdx(idx)

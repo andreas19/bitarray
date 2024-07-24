@@ -185,6 +185,16 @@ func TestUnsetIdxSize(t *testing.T) {
 	t.Error("did not panic")
 }
 
+func TestToggle(t *testing.T) {
+	want := "1000000010"
+	ba := New(10, 9, 0)
+	ba.Toggle(0)
+	ba.Toggle(1)
+	if got := ba.String(); got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestGet(t *testing.T) {
 	s := "0100110101"
 	tests := []struct {
