@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"math"
 	"math/bits"
+	"slices"
 	"strings"
 )
 
@@ -445,4 +446,20 @@ func Concat(ba1, ba2 *BitArray) *BitArray {
 		i2++
 	}
 	return ba
+}
+
+// FromBytes creates a new BitArray from the bytes slice. Panics if len(bytes) == 0.
+func FromBytes(bytes []byte) *BitArray {
+	if len(bytes) == 0 {
+		panic("size must be > 0")
+	}
+	slices.Reverse(bytes)
+	return &BitArray{size: len(bytes) * bitsN, data: bytes}
+}
+
+// ToBytes returns the bit array as a byte slice.
+func (ba *BitArray) ToBytes() []byte {
+	bytes := ba.data
+	slices.Reverse(bytes)
+	return bytes
 }
