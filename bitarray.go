@@ -1,7 +1,8 @@
-// Package bitarray implements a [BitArray].
+// Package bitarray implements a bit array.
 //
 // The least significant bit is at index 0. In the string representation used by
 // [Parse], [MustParse], and [BitArray.String] it is the rightmost digit.
+// The byte slice used by [FromBytes] and [BitArray.ToBytes] is in big-endian order.
 package bitarray
 
 import (
@@ -448,7 +449,7 @@ func Concat(ba1, ba2 *BitArray) *BitArray {
 	return ba
 }
 
-// FromBytes creates a new BitArray from the bytes slice. Panics if len(bytes) == 0.
+// FromBytes creates a new BitArray from the byte slice. Panics if len(bytes) == 0.
 func FromBytes(bytes []byte) *BitArray {
 	if len(bytes) == 0 {
 		panic("size must be > 0")
