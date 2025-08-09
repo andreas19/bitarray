@@ -233,6 +233,25 @@ func (ba *BitArray) Not() {
 	}
 }
 
+// Reverse reverses the bit order
+func (ba *BitArray) Reverse() {
+	a := ba.size - 1
+	for b := range ba.size / 2 {
+		t := ba.get(b)
+		if ba.get(a) {
+			ba.set(b)
+		} else {
+			ba.unset(b)
+		}
+		if t {
+			ba.set(a)
+		} else {
+			ba.unset(a)
+		}
+		a--
+	}
+}
+
 // Rotate rotates the bit array by |n| bits. If n > 0 to the left, if n < 0 to the right.
 func (ba *BitArray) Rotate(n int) {
 	n = n % ba.size

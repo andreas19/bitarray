@@ -393,6 +393,28 @@ func TestNot(t *testing.T) {
 	}
 }
 
+func TestReverse(t *testing.T) {
+	tests := []struct {
+		s, want string
+	}{
+		{"0", "0"},
+		{"1", "1"},
+		{"10", "01"},
+		{"110", "011"},
+		{"01010101", "10101010"},
+		{"010101011", "110101010"},
+		{"0101010101010101", "1010101010101010"},
+		{"01010101010101011", "11010101010101010"},
+	}
+	for i, test := range tests {
+		ba := MustParse(test.s)
+		ba.Reverse()
+		if got := ba.String(); got != test.want {
+			t.Errorf("%d: got %q, want %q", i, got, test.want)
+		}
+	}
+}
+
 func TestRotate(t *testing.T) {
 	tests := []struct {
 		s    string
